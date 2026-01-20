@@ -30,15 +30,38 @@ import { Exam, Room, Submission, StudentInfo, User, Role, Question, Class, Class
 import { calculateScore, getTotalCorrectCount, getTotalWrongCount } from './scoringService';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "THỰC TẾ",
-  authDomain: "THỰC TẾ",
-  projectId: "THỰC TẾ",
-  storageBucket: "THỰC TẾ",
-  messagingSenderId: "THỰC TẾ",
-  appId: "THỰC TẾ",
-  measurementId: "THỰC TẾ"
-};
+2)	rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Users - Admin có thể đọc/ghi tất cả
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+    
+    // Exams
+    match /exams/{examId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+    
+    // Rooms
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+    
+    // Submissions
+    match /submissions/{submissionId} {
+      allow read, write: if true;
+    }
+  }
+}
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
